@@ -1487,27 +1487,516 @@
                   },
                   "properties": {
                     "type": "object",
-                    "description": "Property schema of database. The keys are the names of properties as they appear in Notion and the values are [property schema objects](https://developers.notion.com/reference/property-schema-object).",
+                    "description": "Property schema of database. The keys are the names of properties as they appear in Notion and the values are property schema objects. To delete a property, set its value to null. To rename a property, include a 'name' field with the new name.",
                     "additionalProperties": {
                       "oneOf": [
                         {
                           "type": "object",
+                          "description": "Title property - each database must have exactly one",
                           "properties": {
                             "title": {
                               "type": "object",
                               "properties": {},
                               "additionalProperties": false
                             },
-                            "description": {
+                            "name": {
                               "type": "string",
-                              "maxLength": 280,
-                              "minLength": 1
+                              "description": "New name for the property (for renaming)"
                             }
                           },
-                          "additionalProperties": false,
-                          "required": [
-                            "title"
-                          ]
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "description": "Rich text property for multi-line text",
+                          "properties": {
+                            "rich_text": {
+                              "type": "object",
+                              "properties": {},
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "New name for the property (for renaming)"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "description": "Number property with optional format",
+                          "properties": {
+                            "number": {
+                              "type": "object",
+                              "properties": {
+                                "format": {
+                                  "type": "string",
+                                  "enum": [
+                                    "number",
+                                    "number_with_commas",
+                                    "percent",
+                                    "dollar",
+                                    "canadian_dollar",
+                                    "euro",
+                                    "pound",
+                                    "yen",
+                                    "ruble",
+                                    "rupee",
+                                    "won",
+                                    "yuan",
+                                    "real",
+                                    "lira",
+                                    "rupiah",
+                                    "franc",
+                                    "hong_kong_dollar",
+                                    "new_zealand_dollar",
+                                    "krona",
+                                    "norwegian_krone",
+                                    "mexican_peso",
+                                    "rand",
+                                    "new_taiwan_dollar",
+                                    "danish_krone",
+                                    "zloty",
+                                    "baht",
+                                    "forint",
+                                    "koruna",
+                                    "shekel",
+                                    "chilean_peso",
+                                    "philippine_peso",
+                                    "dirham",
+                                    "colombian_peso",
+                                    "riyal",
+                                    "ringgit",
+                                    "leu",
+                                    "argentine_peso",
+                                    "uruguayan_peso",
+                                    "singapore_dollar"
+                                  ],
+                                  "description": "Number format"
+                                }
+                              },
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "New name for the property (for renaming)"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "description": "Select property with single-choice options",
+                          "properties": {
+                            "select": {
+                              "type": "object",
+                              "properties": {
+                                "options": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "name": {
+                                        "type": "string",
+                                        "description": "Option name"
+                                      },
+                                      "color": {
+                                        "type": "string",
+                                        "enum": [
+                                          "default",
+                                          "gray",
+                                          "brown",
+                                          "orange",
+                                          "yellow",
+                                          "green",
+                                          "blue",
+                                          "purple",
+                                          "pink",
+                                          "red"
+                                        ],
+                                        "description": "Option color"
+                                      }
+                                    },
+                                    "required": [
+                                      "name"
+                                    ]
+                                  },
+                                  "description": "Select options"
+                                }
+                              },
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "New name for the property (for renaming)"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "description": "Multi-select property with multiple-choice options",
+                          "properties": {
+                            "multi_select": {
+                              "type": "object",
+                              "properties": {
+                                "options": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "name": {
+                                        "type": "string",
+                                        "description": "Option name"
+                                      },
+                                      "color": {
+                                        "type": "string",
+                                        "enum": [
+                                          "default",
+                                          "gray",
+                                          "brown",
+                                          "orange",
+                                          "yellow",
+                                          "green",
+                                          "blue",
+                                          "purple",
+                                          "pink",
+                                          "red"
+                                        ],
+                                        "description": "Option color"
+                                      }
+                                    },
+                                    "required": [
+                                      "name"
+                                    ]
+                                  },
+                                  "description": "Multi-select options"
+                                }
+                              },
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "New name for the property (for renaming)"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "description": "Date property",
+                          "properties": {
+                            "date": {
+                              "type": "object",
+                              "properties": {},
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "New name for the property (for renaming)"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "description": "People property for user references",
+                          "properties": {
+                            "people": {
+                              "type": "object",
+                              "properties": {},
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "New name for the property (for renaming)"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "description": "Files property for file attachments",
+                          "properties": {
+                            "files": {
+                              "type": "object",
+                              "properties": {},
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "New name for the property (for renaming)"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "description": "Checkbox property for boolean values",
+                          "properties": {
+                            "checkbox": {
+                              "type": "object",
+                              "properties": {},
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "New name for the property (for renaming)"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "description": "URL property",
+                          "properties": {
+                            "url": {
+                              "type": "object",
+                              "properties": {},
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "New name for the property (for renaming)"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "description": "Email property",
+                          "properties": {
+                            "email": {
+                              "type": "object",
+                              "properties": {},
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "New name for the property (for renaming)"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "description": "Phone number property",
+                          "properties": {
+                            "phone_number": {
+                              "type": "object",
+                              "properties": {},
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "New name for the property (for renaming)"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "description": "Formula property with expression",
+                          "properties": {
+                            "formula": {
+                              "type": "object",
+                              "properties": {
+                                "expression": {
+                                  "type": "string",
+                                  "description": "Formula expression using Notion formula syntax"
+                                }
+                              },
+                              "required": [
+                                "expression"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "New name for the property (for renaming)"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "description": "Relation property linking to another database",
+                          "properties": {
+                            "relation": {
+                              "type": "object",
+                              "properties": {
+                                "database_id": {
+                                  "type": "string",
+                                  "format": "uuid",
+                                  "description": "ID of the related database"
+                                },
+                                "type": {
+                                  "type": "string",
+                                  "enum": [
+                                    "single_property",
+                                    "dual_property"
+                                  ],
+                                  "description": "Relation type - single_property creates one-way, dual_property creates two-way relation"
+                                },
+                                "single_property": {
+                                  "type": "object",
+                                  "properties": {},
+                                  "description": "Empty object for single property relation"
+                                },
+                                "dual_property": {
+                                  "type": "object",
+                                  "properties": {
+                                    "synced_property_name": {
+                                      "type": "string",
+                                      "description": "Name of the corresponding property in the related database"
+                                    },
+                                    "synced_property_id": {
+                                      "type": "string",
+                                      "description": "ID of the corresponding property in the related database"
+                                    }
+                                  },
+                                  "description": "Configuration for dual property relation"
+                                }
+                              },
+                              "required": [
+                                "database_id"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "New name for the property (for renaming)"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "description": "Rollup property for aggregating relation data",
+                          "properties": {
+                            "rollup": {
+                              "type": "object",
+                              "properties": {
+                                "relation_property_name": {
+                                  "type": "string",
+                                  "description": "Name of the relation property to roll up"
+                                },
+                                "relation_property_id": {
+                                  "type": "string",
+                                  "description": "ID of the relation property to roll up"
+                                },
+                                "rollup_property_name": {
+                                  "type": "string",
+                                  "description": "Name of the property to aggregate in the related database"
+                                },
+                                "rollup_property_id": {
+                                  "type": "string",
+                                  "description": "ID of the property to aggregate in the related database"
+                                },
+                                "function": {
+                                  "type": "string",
+                                  "enum": [
+                                    "count_all",
+                                    "count_values",
+                                    "count_unique_values",
+                                    "count_empty",
+                                    "count_not_empty",
+                                    "percent_empty",
+                                    "percent_not_empty",
+                                    "sum",
+                                    "average",
+                                    "median",
+                                    "min",
+                                    "max",
+                                    "range",
+                                    "earliest_date",
+                                    "latest_date",
+                                    "date_range",
+                                    "show_original",
+                                    "show_unique"
+                                  ],
+                                  "description": "Aggregation function"
+                                }
+                              },
+                              "required": [
+                                "function"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "New name for the property (for renaming)"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "description": "Created time property (auto-populated)",
+                          "properties": {
+                            "created_time": {
+                              "type": "object",
+                              "properties": {},
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "New name for the property (for renaming)"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "description": "Created by property (auto-populated)",
+                          "properties": {
+                            "created_by": {
+                              "type": "object",
+                              "properties": {},
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "New name for the property (for renaming)"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "description": "Last edited time property (auto-populated)",
+                          "properties": {
+                            "last_edited_time": {
+                              "type": "object",
+                              "properties": {},
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "New name for the property (for renaming)"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "description": "Last edited by property (auto-populated)",
+                          "properties": {
+                            "last_edited_by": {
+                              "type": "object",
+                              "properties": {},
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "New name for the property (for renaming)"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "null",
+                          "description": "Set to null to delete a property"
                         }
                       ]
                     }
@@ -1695,11 +2184,518 @@
                   },
                   "properties": {
                     "type": "object",
-                    "description": "Property schema of database. The keys are the names of properties as they appear in Notion and the values are [property schema objects](https://developers.notion.com/reference/property-schema-object).",
-                    "properties": {
-                      "name": {
-                        "type": "string"
-                      }
+                    "description": "Property schema of database. The keys are the names of properties as they appear in Notion and the values are property schema objects. To delete a property, set its value to null. To rename a property, include a 'name' field with the new name.",
+                    "additionalProperties": {
+                      "oneOf": [
+                        {
+                          "type": "object",
+                          "description": "Title property - each database must have exactly one",
+                          "properties": {
+                            "title": {
+                              "type": "object",
+                              "properties": {},
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "New name for the property (for renaming)"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "description": "Rich text property for multi-line text",
+                          "properties": {
+                            "rich_text": {
+                              "type": "object",
+                              "properties": {},
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "New name for the property (for renaming)"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "description": "Number property with optional format",
+                          "properties": {
+                            "number": {
+                              "type": "object",
+                              "properties": {
+                                "format": {
+                                  "type": "string",
+                                  "enum": [
+                                    "number",
+                                    "number_with_commas",
+                                    "percent",
+                                    "dollar",
+                                    "canadian_dollar",
+                                    "euro",
+                                    "pound",
+                                    "yen",
+                                    "ruble",
+                                    "rupee",
+                                    "won",
+                                    "yuan",
+                                    "real",
+                                    "lira",
+                                    "rupiah",
+                                    "franc",
+                                    "hong_kong_dollar",
+                                    "new_zealand_dollar",
+                                    "krona",
+                                    "norwegian_krone",
+                                    "mexican_peso",
+                                    "rand",
+                                    "new_taiwan_dollar",
+                                    "danish_krone",
+                                    "zloty",
+                                    "baht",
+                                    "forint",
+                                    "koruna",
+                                    "shekel",
+                                    "chilean_peso",
+                                    "philippine_peso",
+                                    "dirham",
+                                    "colombian_peso",
+                                    "riyal",
+                                    "ringgit",
+                                    "leu",
+                                    "argentine_peso",
+                                    "uruguayan_peso",
+                                    "singapore_dollar"
+                                  ],
+                                  "description": "Number format"
+                                }
+                              },
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "New name for the property (for renaming)"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "description": "Select property with single-choice options",
+                          "properties": {
+                            "select": {
+                              "type": "object",
+                              "properties": {
+                                "options": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "name": {
+                                        "type": "string",
+                                        "description": "Option name"
+                                      },
+                                      "color": {
+                                        "type": "string",
+                                        "enum": [
+                                          "default",
+                                          "gray",
+                                          "brown",
+                                          "orange",
+                                          "yellow",
+                                          "green",
+                                          "blue",
+                                          "purple",
+                                          "pink",
+                                          "red"
+                                        ],
+                                        "description": "Option color"
+                                      }
+                                    },
+                                    "required": [
+                                      "name"
+                                    ]
+                                  },
+                                  "description": "Select options"
+                                }
+                              },
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "New name for the property (for renaming)"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "description": "Multi-select property with multiple-choice options",
+                          "properties": {
+                            "multi_select": {
+                              "type": "object",
+                              "properties": {
+                                "options": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "name": {
+                                        "type": "string",
+                                        "description": "Option name"
+                                      },
+                                      "color": {
+                                        "type": "string",
+                                        "enum": [
+                                          "default",
+                                          "gray",
+                                          "brown",
+                                          "orange",
+                                          "yellow",
+                                          "green",
+                                          "blue",
+                                          "purple",
+                                          "pink",
+                                          "red"
+                                        ],
+                                        "description": "Option color"
+                                      }
+                                    },
+                                    "required": [
+                                      "name"
+                                    ]
+                                  },
+                                  "description": "Multi-select options"
+                                }
+                              },
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "New name for the property (for renaming)"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "description": "Date property",
+                          "properties": {
+                            "date": {
+                              "type": "object",
+                              "properties": {},
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "New name for the property (for renaming)"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "description": "People property for user references",
+                          "properties": {
+                            "people": {
+                              "type": "object",
+                              "properties": {},
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "New name for the property (for renaming)"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "description": "Files property for file attachments",
+                          "properties": {
+                            "files": {
+                              "type": "object",
+                              "properties": {},
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "New name for the property (for renaming)"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "description": "Checkbox property for boolean values",
+                          "properties": {
+                            "checkbox": {
+                              "type": "object",
+                              "properties": {},
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "New name for the property (for renaming)"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "description": "URL property",
+                          "properties": {
+                            "url": {
+                              "type": "object",
+                              "properties": {},
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "New name for the property (for renaming)"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "description": "Email property",
+                          "properties": {
+                            "email": {
+                              "type": "object",
+                              "properties": {},
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "New name for the property (for renaming)"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "description": "Phone number property",
+                          "properties": {
+                            "phone_number": {
+                              "type": "object",
+                              "properties": {},
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "New name for the property (for renaming)"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "description": "Formula property with expression",
+                          "properties": {
+                            "formula": {
+                              "type": "object",
+                              "properties": {
+                                "expression": {
+                                  "type": "string",
+                                  "description": "Formula expression using Notion formula syntax"
+                                }
+                              },
+                              "required": [
+                                "expression"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "New name for the property (for renaming)"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "description": "Relation property linking to another database",
+                          "properties": {
+                            "relation": {
+                              "type": "object",
+                              "properties": {
+                                "database_id": {
+                                  "type": "string",
+                                  "format": "uuid",
+                                  "description": "ID of the related database"
+                                },
+                                "type": {
+                                  "type": "string",
+                                  "enum": [
+                                    "single_property",
+                                    "dual_property"
+                                  ],
+                                  "description": "Relation type - single_property creates one-way, dual_property creates two-way relation"
+                                },
+                                "single_property": {
+                                  "type": "object",
+                                  "properties": {},
+                                  "description": "Empty object for single property relation"
+                                },
+                                "dual_property": {
+                                  "type": "object",
+                                  "properties": {
+                                    "synced_property_name": {
+                                      "type": "string",
+                                      "description": "Name of the corresponding property in the related database"
+                                    },
+                                    "synced_property_id": {
+                                      "type": "string",
+                                      "description": "ID of the corresponding property in the related database"
+                                    }
+                                  },
+                                  "description": "Configuration for dual property relation"
+                                }
+                              },
+                              "required": [
+                                "database_id"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "New name for the property (for renaming)"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "description": "Rollup property for aggregating relation data",
+                          "properties": {
+                            "rollup": {
+                              "type": "object",
+                              "properties": {
+                                "relation_property_name": {
+                                  "type": "string",
+                                  "description": "Name of the relation property to roll up"
+                                },
+                                "relation_property_id": {
+                                  "type": "string",
+                                  "description": "ID of the relation property to roll up"
+                                },
+                                "rollup_property_name": {
+                                  "type": "string",
+                                  "description": "Name of the property to aggregate in the related database"
+                                },
+                                "rollup_property_id": {
+                                  "type": "string",
+                                  "description": "ID of the property to aggregate in the related database"
+                                },
+                                "function": {
+                                  "type": "string",
+                                  "enum": [
+                                    "count_all",
+                                    "count_values",
+                                    "count_unique_values",
+                                    "count_empty",
+                                    "count_not_empty",
+                                    "percent_empty",
+                                    "percent_not_empty",
+                                    "sum",
+                                    "average",
+                                    "median",
+                                    "min",
+                                    "max",
+                                    "range",
+                                    "earliest_date",
+                                    "latest_date",
+                                    "date_range",
+                                    "show_original",
+                                    "show_unique"
+                                  ],
+                                  "description": "Aggregation function"
+                                }
+                              },
+                              "required": [
+                                "function"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "New name for the property (for renaming)"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "description": "Created time property (auto-populated)",
+                          "properties": {
+                            "created_time": {
+                              "type": "object",
+                              "properties": {},
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "New name for the property (for renaming)"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "description": "Created by property (auto-populated)",
+                          "properties": {
+                            "created_by": {
+                              "type": "object",
+                              "properties": {},
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "New name for the property (for renaming)"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "description": "Last edited time property (auto-populated)",
+                          "properties": {
+                            "last_edited_time": {
+                              "type": "object",
+                              "properties": {},
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "New name for the property (for renaming)"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "description": "Last edited by property (auto-populated)",
+                          "properties": {
+                            "last_edited_by": {
+                              "type": "object",
+                              "properties": {},
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "New name for the property (for renaming)"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "null",
+                          "description": "Set to null to delete a property"
+                        }
+                      ]
                     }
                   }
                 },

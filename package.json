@@ -1,12 +1,12 @@
 {
-  "name": "@notionhq/notion-mcp-server",
+  "name": "@generative-ai-strategy/notion-mcp-server",
   "keywords": [
     "notion",
     "api",
     "mcp",
     "server"
   ],
-  "version": "1.9.1",
+  "version": "1.10.0",
   "license": "MIT",
   "type": "module",
   "scripts": {
@@ -21,6 +21,7 @@
     "axios": "^1.8.4",
     "express": "^4.21.2",
     "form-data": "^4.0.1",
+    "js-yaml": "^4.1.1",
     "mustache": "^4.2.0",
     "node-fetch": "^3.3.2",
     "openapi-client-axios": "^7.5.5",
@@ -46,15 +47,15 @@
     "typescript": "^5.8.2",
     "vitest": "^3.1.1"
   },
-  "description": "Official MCP server for Notion API",
+  "description": "Extended MCP server for Notion API with full database property schema support. Fork of @notionhq/notion-mcp-server.",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git@github.com:makenotion/notion-mcp-server.git"
+    "url": "git@github.com:Generative-AI-Strategy-B-V/notion-mcp.git"
   },
-  "author": "@notionhq",
+  "author": "Generative AI Strategy B.V.",
   "bugs": {
-    "url": "https://github.com/makenotion/notion-mcp-server/issues"
+    "url": "https://github.com/Generative-AI-Strategy-B-V/notion-mcp/issues"
   },
-  "homepage": "https://github.com/makenotion/notion-mcp-server#readme"
+  "homepage": "https://github.com/Generative-AI-Strategy-B-V/notion-mcp#readme"
 }
