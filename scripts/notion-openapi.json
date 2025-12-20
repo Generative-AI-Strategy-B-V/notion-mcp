@@ -32,7 +32,7 @@
     "/v1/users/{user_id}": {
       "get": {
         "summary": "Retrieve a user",
-        "description": "",
+        "description": "Retrieve a Notion user by their ID. Returns user details including name, email, and avatar.",
         "operationId": "get-user",
         "parameters": [
           {
@@ -120,13 +120,14 @@
             }
           }
         },
-        "deprecated": false
+        "deprecated": false,
+        "description": "List all users in the Notion workspace. Returns paginated list of users including bots and people."
       }
     },
     "/v1/users/me": {
       "get": {
         "summary": "Retrieve your token's bot user",
-        "description": "",
+        "description": "Retrieve the bot user associated with the current API token. Useful for getting the bot's identity and owner information.",
         "operationId": "get-self",
         "parameters": [],
         "responses": {
@@ -217,7 +218,7 @@
     "/v1/databases/{database_id}/query": {
       "post": {
         "summary": "Query a database",
-        "description": "",
+        "description": "Query a Notion database with optional filters and sorts. Returns paginated list of pages (database entries) matching the criteria. Supports filtering by property values and sorting by property.",
         "operationId": "post-database-query",
         "parameters": [
           {
@@ -846,7 +847,7 @@
     "/v1/search": {
       "post": {
         "summary": "Search by title",
-        "description": "",
+        "description": "Search for pages and databases by title across the entire Notion workspace. Returns matching pages and databases sorted by relevance or last edited time.",
         "operationId": "post-search",
         "parameters": [],
         "requestBody": {
@@ -910,7 +911,7 @@
     "/v1/blocks/{block_id}/children": {
       "get": {
         "summary": "Retrieve block children",
-        "description": "",
+        "description": "Retrieve the children blocks of a block or page. Returns paginated list of child blocks. Use block_id or page_id to get contents.",
         "operationId": "get-block-children",
         "parameters": [
           {
@@ -947,7 +948,7 @@
       },
       "patch": {
         "summary": "Append block children",
-        "description": "",
+        "description": "Append new blocks as children to a parent block or page. Supports 20+ block types including paragraphs, headings, lists, code, tables, images, and more. Use this to add content to Notion pages.",
         "operationId": "patch-block-children",
         "parameters": [
           {
@@ -2433,7 +2434,7 @@
     "/v1/blocks/{block_id}": {
       "get": {
         "summary": "Retrieve a block",
-        "description": "",
+        "description": "Retrieve a single block by its ID. Returns the block object with its type and content.",
         "operationId": "retrieve-a-block",
         "parameters": [
           {
@@ -2452,7 +2453,7 @@
       },
       "patch": {
         "summary": "Update a block",
-        "description": "",
+        "description": "Update a block. Can modify block content (for supported types) or archive/restore blocks using the archived property.",
         "operationId": "update-a-block",
         "parameters": [
           {
@@ -2492,7 +2493,7 @@
       },
       "delete": {
         "summary": "Delete a block",
-        "description": "",
+        "description": "Delete (archive) a block by its ID. The block can be restored later by setting archived to false.",
         "operationId": "delete-a-block",
         "parameters": [
           {
@@ -2513,7 +2514,7 @@
     "/v1/pages/{page_id}": {
       "get": {
         "summary": "Retrieve a page",
-        "description": "",
+        "description": "Retrieve a Notion page by its ID. Returns page properties, icon, cover, and metadata. Use filter_properties to limit which properties are returned.",
         "operationId": "retrieve-a-page",
         "parameters": [
           {
@@ -2540,7 +2541,7 @@
       },
       "patch": {
         "summary": "Update page properties",
-        "description": "",
+        "description": "Update page properties, icon, cover, or archive status. Supports all property types: title, rich_text, number, select, multi_select, status, date, checkbox, url, email, phone, people, relation, and files.",
         "operationId": "patch-page",
         "parameters": [
           {
@@ -3051,7 +3052,7 @@
     "/v1/pages": {
       "post": {
         "summary": "Create a page",
-        "description": "",
+        "description": "Create a new Notion page. Must specify a parent (page_id or database_id) and properties. For database pages, properties must match the database schema.",
         "operationId": "post-page",
         "parameters": [],
         "requestBody": {
@@ -3144,7 +3145,7 @@
     "/v1/databases": {
       "post": {
         "summary": "Create a database",
-        "description": "",
+        "description": "Create a new database as a child of an existing page. Define the database schema with property definitions including title, text, number, select, multi_select, date, people, files, checkbox, url, email, phone, formula, relation, and rollup.",
         "operationId": "create-a-database",
         "parameters": [],
         "requestBody": {
@@ -3763,7 +3764,7 @@
     "/v1/databases/{database_id}": {
       "patch": {
         "summary": "Update a database",
-        "description": "",
+        "description": "Update a database title, description, or property schema. Can add new properties, rename existing ones, or delete properties by setting them to null.",
         "operationId": "update-a-database",
         "parameters": [
           {
@@ -4401,7 +4402,7 @@
       },
       "get": {
         "summary": "Retrieve a database",
-        "description": "",
+        "description": "Retrieve a database by its ID. Returns the database schema including all property definitions, title, and description.",
         "operationId": "retrieve-a-database",
         "parameters": [
           {
@@ -4435,7 +4436,7 @@
     "/v1/pages/{page_id}/properties/{property_id}": {
       "get": {
         "summary": "Retrieve a page property item",
-        "description": "",
+        "description": "Retrieve a specific property value from a page. Useful for paginated properties like rich_text, title, relation, and rollup. Returns the property item(s).",
         "operationId": "retrieve-a-page-property",
         "parameters": [
           {
@@ -4501,7 +4502,7 @@
     "/v1/comments": {
       "get": {
         "summary": "Retrieve comments",
-        "description": "Retrieves a list of un-resolved [Comment objects](ref:comment-object) from a page or block.",
+        "description": "Retrieve comments on a block or page. Returns paginated list of discussion comments.",
         "operationId": "retrieve-a-comment",
         "parameters": [
           {
@@ -4550,7 +4551,7 @@
       },
       "post": {
         "summary": "Create comment",
-        "description": "Creates a comment in a page or existing discussion thread.",
+        "description": "Create a new comment on a page. Comments are added to the page discussion thread.",
         "operationId": "create-a-comment",
         "requestBody": {
           "content": {
