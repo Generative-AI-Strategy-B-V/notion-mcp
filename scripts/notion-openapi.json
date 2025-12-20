@@ -1953,7 +1953,8 @@
                             "type": {
                               "type": "string",
                               "enum": [
-                                "external"
+                                "external",
+                                "file_upload"
                               ],
                               "description": "Must be external for API-created images"
                             },
@@ -2012,6 +2013,19 @@
                                   "text"
                                 ]
                               }
+                            },
+                            "file_upload": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string",
+                                  "format": "uuid",
+                                  "description": "File upload ID from create-file-upload"
+                                }
+                              },
+                              "required": [
+                                "id"
+                              ]
                             }
                           },
                           "additionalProperties": false,
@@ -2026,7 +2040,8 @@
                             "type": {
                               "type": "string",
                               "enum": [
-                                "external"
+                                "external",
+                                "file_upload"
                               ],
                               "description": "Must be external for API-created videos"
                             },
@@ -2085,6 +2100,19 @@
                                   "text"
                                 ]
                               }
+                            },
+                            "file_upload": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string",
+                                  "format": "uuid",
+                                  "description": "File upload ID from create-file-upload"
+                                }
+                              },
+                              "required": [
+                                "id"
+                              ]
                             }
                           },
                           "additionalProperties": false,
@@ -2099,7 +2127,8 @@
                             "type": {
                               "type": "string",
                               "enum": [
-                                "external"
+                                "external",
+                                "file_upload"
                               ],
                               "description": "Must be external for API-created files"
                             },
@@ -2162,6 +2191,19 @@
                             "name": {
                               "type": "string",
                               "description": "Display name for the file"
+                            },
+                            "file_upload": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string",
+                                  "format": "uuid",
+                                  "description": "File upload ID from create-file-upload"
+                                }
+                              },
+                              "required": [
+                                "id"
+                              ]
                             }
                           },
                           "additionalProperties": false,
@@ -2176,7 +2218,8 @@
                             "type": {
                               "type": "string",
                               "enum": [
-                                "external"
+                                "external",
+                                "file_upload"
                               ],
                               "description": "Must be external for API-created PDFs"
                             },
@@ -2235,6 +2278,19 @@
                                   "text"
                                 ]
                               }
+                            },
+                            "file_upload": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string",
+                                  "format": "uuid",
+                                  "description": "File upload ID from create-file-upload"
+                                }
+                              },
+                              "required": [
+                                "id"
+                              ]
                             }
                           },
                           "additionalProperties": false,
@@ -2892,45 +2948,95 @@
                     "type": "boolean"
                   },
                   "icon": {
-                    "description": "A page icon for the page. Supported types are [external file object](https://developers.notion.com/reference/file-object) or [emoji object](https://developers.notion.com/reference/emoji-object).",
-                    "type": "object",
-                    "properties": {
-                      "emoji": {
-                        "type": "string"
+                    "description": "A page icon. Supports emoji or external file URL.",
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "enum": [
+                              "emoji"
+                            ],
+                            "type": "string"
+                          },
+                          "emoji": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "emoji"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "enum": [
+                              "external"
+                            ],
+                            "type": "string"
+                          },
+                          "external": {
+                            "type": "object",
+                            "properties": {
+                              "url": {
+                                "type": "string",
+                                "format": "uri"
+                              }
+                            },
+                            "required": [
+                              "url"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "external"
+                        ]
                       }
-                    },
-                    "additionalProperties": false,
-                    "required": [
-                      "emoji"
                     ]
                   },
                   "cover": {
                     "type": "object",
-                    "description": "A cover image for the page. Only [external file objects](https://developers.notion.com/reference/file-object) are supported.",
+                    "description": "A cover image for the page. Supports external URLs or file_upload IDs.",
                     "properties": {
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "external",
+                          "file_upload"
+                        ]
+                      },
                       "external": {
                         "type": "object",
                         "properties": {
                           "url": {
-                            "type": "string"
+                            "type": "string",
+                            "format": "uri"
                           }
                         },
-                        "additionalProperties": false,
                         "required": [
                           "url"
                         ]
                       },
-                      "type": {
-                        "enum": [
-                          "external"
-                        ],
-                        "type": "string"
+                      "file_upload": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "format": "uuid",
+                            "description": "File upload ID from create-file-upload"
+                          }
+                        },
+                        "required": [
+                          "id"
+                        ]
                       }
                     },
                     "required": [
-                      "external"
-                    ],
-                    "additionalProperties": false
+                      "type"
+                    ]
                   }
                 }
               }
@@ -4505,6 +4611,361 @@
                 "examples": {
                   "Result": {
                     "value": "{\n    \"object\": \"comment\",\n    \"id\": \"b52b8ed6-e029-4707-a671-832549c09de3\",\n    \"parent\": {\n        \"type\": \"page_id\",\n        \"page_id\": \"5c6a2821-6bb1-4a7e-b6e1-c50111515c3d\"\n    },\n    \"discussion_id\": \"f1407351-36f5-4c49-a13c-49f8ba11776d\",\n    \"created_time\": \"2022-07-15T20:53:00.000Z\",\n    \"last_edited_time\": \"2022-07-15T20:53:00.000Z\",\n    \"created_by\": {\n        \"object\": \"user\",\n        \"id\": \"067dee40-6ebd-496f-b446-093c715fb5ec\"\n    },\n    \"rich_text\": [\n        {\n            \"type\": \"text\",\n            \"text\": {\n                \"content\": \"Hello world\",\n                \"link\": null\n            },\n            \"annotations\": {\n                \"bold\": false,\n                \"italic\": false,\n                \"strikethrough\": false,\n                \"underline\": false,\n                \"code\": false,\n                \"color\": \"default\"\n            },\n            \"plain_text\": \"Hello world\",\n            \"href\": null\n        }\n    ]\n}"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "security": []
+      }
+    },
+    "/v1/file_uploads": {
+      "post": {
+        "summary": "Create a file upload",
+        "description": "Initiates a file upload. Returns a File Upload object with upload_url for sending file contents. Upload must be completed within 1 hour.",
+        "operationId": "create-file-upload",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "filename": {
+                    "type": "string",
+                    "description": "Optional filename (max 900 bytes). Extension auto-detected from content_type if not specified."
+                  },
+                  "content_type": {
+                    "type": "string",
+                    "description": "MIME type of the file (e.g., image/png, application/pdf)"
+                  },
+                  "mode": {
+                    "type": "string",
+                    "enum": [
+                      "single_part",
+                      "multi_part"
+                    ],
+                    "default": "single_part",
+                    "description": "Upload mode. Use multi_part for files > 20MB (up to 5GB in paid workspaces)."
+                  },
+                  "number_of_parts": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Required for multi_part mode. Number of parts the file will be split into."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "File Upload object created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "enum": [
+                        "file_upload"
+                      ]
+                    },
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "created_time": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "last_edited_time": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "expiry_time": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "format": "date-time"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "pending",
+                        "uploaded",
+                        "expired",
+                        "failed"
+                      ]
+                    },
+                    "upload_url": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "filename": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "content_type": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "content_length": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "security": []
+      }
+    },
+    "/v1/file_uploads/{file_upload_id}/send": {
+      "post": {
+        "summary": "Send file upload contents",
+        "description": "Upload file contents to Notion. Use multipart/form-data with file field. For multi-part uploads, include part_number.",
+        "operationId": "send-file-upload",
+        "parameters": [
+          {
+            "name": "file_upload_id",
+            "in": "path",
+            "description": "The file upload ID from create-file-upload",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "The file contents to upload"
+                  },
+                  "part_number": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Required for multi_part mode. The part number being uploaded."
+                  }
+                },
+                "required": [
+                  "file"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "File contents uploaded successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "enum": [
+                        "file_upload"
+                      ]
+                    },
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "pending",
+                        "uploaded"
+                      ]
+                    },
+                    "filename": {
+                      "type": "string"
+                    },
+                    "content_type": {
+                      "type": "string"
+                    },
+                    "content_length": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "security": []
+      }
+    },
+    "/v1/file_uploads/{file_upload_id}/complete": {
+      "post": {
+        "summary": "Complete file upload",
+        "description": "Finalize a multi-part file upload after all parts have been sent.",
+        "operationId": "complete-file-upload",
+        "parameters": [
+          {
+            "name": "file_upload_id",
+            "in": "path",
+            "description": "The file upload ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "File upload completed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "enum": [
+                        "file_upload"
+                      ]
+                    },
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "uploaded"
+                      ]
+                    },
+                    "filename": {
+                      "type": "string"
+                    },
+                    "content_type": {
+                      "type": "string"
+                    },
+                    "content_length": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "security": []
+      }
+    },
+    "/v1/file_uploads/{file_upload_id}": {
+      "get": {
+        "summary": "Get file upload",
+        "description": "Retrieve a file upload object to check its status.",
+        "operationId": "get-file-upload",
+        "parameters": [
+          {
+            "name": "file_upload_id",
+            "in": "path",
+            "description": "The file upload ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File upload object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "enum": [
+                        "file_upload"
+                      ]
+                    },
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "created_time": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "last_edited_time": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "expiry_time": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "format": "date-time"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "pending",
+                        "uploaded",
+                        "expired",
+                        "failed"
+                      ]
+                    },
+                    "filename": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "content_type": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "content_length": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    }
                   }
                 }
               }
