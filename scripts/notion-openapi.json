@@ -2506,63 +2506,382 @@
                   "properties": {
                     "description": "The property values to update for the page. The keys are the names or IDs of the property and the values are property values. If a page property ID is not included, then it is not changed.",
                     "type": "object",
-                    "properties": {
-                      "title": {
-                        "type": "array",
-                        "items": {
+                    "additionalProperties": {
+                      "oneOf": [
+                        {
                           "type": "object",
+                          "description": "Title property value",
                           "properties": {
-                            "text": {
-                              "type": "object",
-                              "properties": {
-                                "content": {
-                                  "type": "string"
-                                },
-                                "link": {
-                                  "type": [
-                                    "object",
-                                    "null"
-                                  ],
-                                  "properties": {
-                                    "url": {
-                                      "type": "string"
-                                    }
+                            "title": {
+                              "type": "array",
+                              "description": "Rich text content",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "text": {
+                                    "type": "object",
+                                    "properties": {
+                                      "content": {
+                                        "type": "string"
+                                      },
+                                      "link": {
+                                        "type": [
+                                          "object",
+                                          "null"
+                                        ],
+                                        "properties": {
+                                          "url": {
+                                            "type": "string"
+                                          }
+                                        }
+                                      }
+                                    },
+                                    "required": [
+                                      "content"
+                                    ]
                                   },
-                                  "required": [
-                                    "url"
-                                  ]
-                                }
-                              },
-                              "additionalProperties": false,
-                              "required": [
-                                "content"
-                              ]
-                            },
-                            "type": {
-                              "enum": [
-                                "text"
-                              ],
-                              "type": "string"
+                                  "type": {
+                                    "enum": [
+                                      "text"
+                                    ],
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "text"
+                                ]
+                              }
                             }
                           },
-                          "additionalProperties": false,
                           "required": [
-                            "text"
+                            "title"
                           ]
                         },
-                        "maxItems": 100
-                      },
-                      "type": {
-                        "enum": [
-                          "title"
-                        ],
-                        "type": "string"
-                      }
-                    },
-                    "additionalProperties": false,
-                    "required": [
-                      "title"
-                    ]
+                        {
+                          "type": "object",
+                          "description": "Rich text property value",
+                          "properties": {
+                            "rich_text": {
+                              "type": "array",
+                              "description": "Rich text content",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "text": {
+                                    "type": "object",
+                                    "properties": {
+                                      "content": {
+                                        "type": "string"
+                                      },
+                                      "link": {
+                                        "type": [
+                                          "object",
+                                          "null"
+                                        ],
+                                        "properties": {
+                                          "url": {
+                                            "type": "string"
+                                          }
+                                        }
+                                      }
+                                    },
+                                    "required": [
+                                      "content"
+                                    ]
+                                  },
+                                  "type": {
+                                    "enum": [
+                                      "text"
+                                    ],
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "text"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "rich_text"
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "description": "Number property value",
+                          "properties": {
+                            "number": {
+                              "type": [
+                                "number",
+                                "null"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "number"
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "description": "Select property value",
+                          "properties": {
+                            "select": {
+                              "type": [
+                                "object",
+                                "null"
+                              ],
+                              "properties": {
+                                "name": {
+                                  "type": "string"
+                                },
+                                "id": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          },
+                          "required": [
+                            "select"
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "description": "Multi-select property value",
+                          "properties": {
+                            "multi_select": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string"
+                                  },
+                                  "id": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "required": [
+                            "multi_select"
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "description": "Status property value",
+                          "properties": {
+                            "status": {
+                              "type": [
+                                "object",
+                                "null"
+                              ],
+                              "properties": {
+                                "name": {
+                                  "type": "string"
+                                },
+                                "id": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          },
+                          "required": [
+                            "status"
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "description": "Date property value",
+                          "properties": {
+                            "date": {
+                              "type": [
+                                "object",
+                                "null"
+                              ],
+                              "properties": {
+                                "start": {
+                                  "type": "string",
+                                  "description": "ISO 8601 date string (YYYY-MM-DD or with time)"
+                                },
+                                "end": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ],
+                                  "description": "Optional end date for date ranges"
+                                },
+                                "time_zone": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ],
+                                  "description": "IANA time zone identifier"
+                                }
+                              },
+                              "required": [
+                                "start"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "date"
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "description": "Checkbox property value",
+                          "properties": {
+                            "checkbox": {
+                              "type": "boolean"
+                            }
+                          },
+                          "required": [
+                            "checkbox"
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "description": "URL property value",
+                          "properties": {
+                            "url": {
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "format": "uri"
+                            }
+                          },
+                          "required": [
+                            "url"
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "description": "Email property value",
+                          "properties": {
+                            "email": {
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "format": "email"
+                            }
+                          },
+                          "required": [
+                            "email"
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "description": "Phone number property value",
+                          "properties": {
+                            "phone_number": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "phone_number"
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "description": "People property value (array of user objects)",
+                          "properties": {
+                            "people": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "format": "uuid",
+                                    "description": "User ID"
+                                  }
+                                },
+                                "required": [
+                                  "id"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "people"
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "description": "Relation property value (array of page references)",
+                          "properties": {
+                            "relation": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "format": "uuid",
+                                    "description": "Related page ID"
+                                  }
+                                },
+                                "required": [
+                                  "id"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "relation"
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "description": "Files property value (array of external file objects)",
+                          "properties": {
+                            "files": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string",
+                                    "description": "File name"
+                                  },
+                                  "type": {
+                                    "enum": [
+                                      "external"
+                                    ],
+                                    "type": "string"
+                                  },
+                                  "external": {
+                                    "type": "object",
+                                    "properties": {
+                                      "url": {
+                                        "type": "string",
+                                        "format": "uri"
+                                      }
+                                    },
+                                    "required": [
+                                      "url"
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "name",
+                                  "external"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "files"
+                          ]
+                        }
+                      ]
+                    }
                   },
                   "in_trash": {
                     "type": "boolean",
