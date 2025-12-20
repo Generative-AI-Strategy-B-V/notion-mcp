@@ -1095,7 +1095,9 @@
                             "callout",
                             "divider",
                             "toggle",
-                            "to_do"
+                            "to_do",
+                            "table",
+                            "table_row"
                           ],
                           "type": "string"
                         },
@@ -1785,6 +1787,158 @@
                           "additionalProperties": false,
                           "required": [
                             "rich_text"
+                          ]
+                        },
+                        "table": {
+                          "type": "object",
+                          "properties": {
+                            "table_width": {
+                              "type": "integer",
+                              "description": "Number of columns in the table. Can only be set on creation.",
+                              "minimum": 1
+                            },
+                            "has_column_header": {
+                              "type": "boolean",
+                              "default": false,
+                              "description": "Whether the first row is a header row"
+                            },
+                            "has_row_header": {
+                              "type": "boolean",
+                              "default": false,
+                              "description": "Whether the first column is a header column"
+                            },
+                            "children": {
+                              "type": "array",
+                              "description": "Array of table_row blocks. Must have at least one row with cells matching table_width.",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "enum": [
+                                      "table_row"
+                                    ],
+                                    "type": "string"
+                                  },
+                                  "table_row": {
+                                    "type": "object",
+                                    "properties": {
+                                      "cells": {
+                                        "type": "array",
+                                        "description": "Array of cells. Each cell is an array of rich text objects.",
+                                        "items": {
+                                          "type": "array",
+                                          "items": {
+                                            "type": "object",
+                                            "properties": {
+                                              "text": {
+                                                "type": "object",
+                                                "properties": {
+                                                  "content": {
+                                                    "type": "string"
+                                                  },
+                                                  "link": {
+                                                    "type": [
+                                                      "object",
+                                                      "null"
+                                                    ],
+                                                    "properties": {
+                                                      "url": {
+                                                        "type": "string"
+                                                      }
+                                                    }
+                                                  }
+                                                },
+                                                "additionalProperties": false,
+                                                "required": [
+                                                  "content"
+                                                ]
+                                              },
+                                              "type": {
+                                                "enum": [
+                                                  "text"
+                                                ],
+                                                "type": "string"
+                                              }
+                                            },
+                                            "additionalProperties": false,
+                                            "required": [
+                                              "text"
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    },
+                                    "required": [
+                                      "cells"
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "type",
+                                  "table_row"
+                                ]
+                              },
+                              "minItems": 1
+                            }
+                          },
+                          "additionalProperties": false,
+                          "required": [
+                            "table_width",
+                            "children"
+                          ]
+                        },
+                        "table_row": {
+                          "type": "object",
+                          "properties": {
+                            "cells": {
+                              "type": "array",
+                              "description": "Array of cells. Each cell is an array of rich text objects. Length must match table_width.",
+                              "items": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "text": {
+                                      "type": "object",
+                                      "properties": {
+                                        "content": {
+                                          "type": "string"
+                                        },
+                                        "link": {
+                                          "type": [
+                                            "object",
+                                            "null"
+                                          ],
+                                          "properties": {
+                                            "url": {
+                                              "type": "string"
+                                            }
+                                          }
+                                        }
+                                      },
+                                      "additionalProperties": false,
+                                      "required": [
+                                        "content"
+                                      ]
+                                    },
+                                    "type": {
+                                      "enum": [
+                                        "text"
+                                      ],
+                                      "type": "string"
+                                    }
+                                  },
+                                  "additionalProperties": false,
+                                  "required": [
+                                    "text"
+                                  ]
+                                }
+                              }
+                            }
+                          },
+                          "additionalProperties": false,
+                          "required": [
+                            "cells"
                           ]
                         }
                       },
