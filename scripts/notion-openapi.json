@@ -1094,7 +1094,8 @@
                             "quote",
                             "callout",
                             "divider",
-                            "toggle"
+                            "toggle",
+                            "to_do"
                           ],
                           "type": "string"
                         },
@@ -1673,6 +1674,87 @@
                                 ]
                               },
                               "maxItems": 100
+                            },
+                            "color": {
+                              "type": "string",
+                              "enum": [
+                                "default",
+                                "gray",
+                                "brown",
+                                "orange",
+                                "yellow",
+                                "green",
+                                "blue",
+                                "purple",
+                                "pink",
+                                "red",
+                                "gray_background",
+                                "brown_background",
+                                "orange_background",
+                                "yellow_background",
+                                "green_background",
+                                "blue_background",
+                                "purple_background",
+                                "pink_background",
+                                "red_background"
+                              ],
+                              "default": "default"
+                            }
+                          },
+                          "additionalProperties": false,
+                          "required": [
+                            "rich_text"
+                          ]
+                        },
+                        "to_do": {
+                          "type": "object",
+                          "properties": {
+                            "rich_text": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "text": {
+                                    "type": "object",
+                                    "properties": {
+                                      "content": {
+                                        "type": "string"
+                                      },
+                                      "link": {
+                                        "type": [
+                                          "object",
+                                          "null"
+                                        ],
+                                        "properties": {
+                                          "url": {
+                                            "type": "string"
+                                          }
+                                        }
+                                      }
+                                    },
+                                    "additionalProperties": false,
+                                    "required": [
+                                      "content"
+                                    ]
+                                  },
+                                  "type": {
+                                    "enum": [
+                                      "text"
+                                    ],
+                                    "type": "string"
+                                  }
+                                },
+                                "additionalProperties": false,
+                                "required": [
+                                  "text"
+                                ]
+                              },
+                              "maxItems": 100
+                            },
+                            "checked": {
+                              "type": "boolean",
+                              "default": false,
+                              "description": "Whether the to-do is checked (completed) or not"
                             },
                             "color": {
                               "type": "string",
